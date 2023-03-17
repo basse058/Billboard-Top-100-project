@@ -1,78 +1,5 @@
 
-// creating listening event for when a user searches for a song
-// function songSelect(e) {
-//   const songName = e.target.value;
-//   console.log(songName)
-  // const url = `"https://api.spotify.com/v1/search?q="${songName}"type=track"`;
-  // fetch(url)
-  //   .then((res) => res.json())
-  //   .then(console.log);
-// };
-
-// const songInput = document.getElementById("search-bar");
-
-// songInput.addEventListener("change", songSelect);
-
-const searchInput = document.querySelector('searchBar');
-
-// input.addEventListener("search", () => {
-//   console.log(`The term searched for was ${input.value}`);
-// });
-
-let searchQuery;
-
-searchInput.addEventListener("keydown", (e) => {
-    if (e.key == "Enter" && searchBar.value != "") {
-        searchQuery = searchBar.value;
-        console.log(searchQuery)
-    }
-})
-
-// creating listening event for decade input
-// function decadeSelect(decade) {
-//   const songName = decade.target.value;
-//   const url = `"https://api.spotify.com/v1/search?q="${songName}"type=track"`;
-//   fetch(url)
-//     .then((res) => res.json())
-//     .then(console.log);
-// };
-
-// const decadeInput = document.getElementById("decadeDropdown")
-
-// decadeInput.addEventListener("change", decadeSelect);
-
-
-// const selectElement = document.querySelector(".greet");
-
-// selectElement.addEventListener("change", (event) => {
-//   console.log(event.target.value)
-//   // const result = document.querySelector(".result");
-//   // result.textContent = `You selected ${event.target.value}`;
-// });
-
-// creating element that selects radar chart
-var canvasElement = document.getElementById('radar-compare');
-
-// starting out by pre-determing the song features to be measured on the radar chart
-let songFeatures = [
-  'danceability',
-  'energy',
-  'loudness',
-  'speechiness',
-  'acousticness',
-  'liveness'
-]
-
-// create chart function
-
-// dummy chart is to
-// used called features and compare the keys with songFeatures and create a dataset just with that 
-
-
-// function createChart(songSelection){
-// retrieve the song data 
-
-songData = []
+// defining a dummy json output when we search a song or click for a decade
 let calledFeatures = {
   "danceability": 0.614,
   "energy": 0.809,
@@ -94,32 +21,111 @@ let calledFeatures = {
   "time_signature": 4
 };
 
-testFeat = ['danceability']
+let decadeRawData = {
+  "danceability": 1.6,
+  "energy": 2.809,
+  "key": 1,
+  "loudness": -1.749,
+  "mode": 2,
+  "speechiness": 0.0453,
+  "acousticness": 0.0305,
+  "instrumentalness": 0.0043,
+  "liveness": 0.2,
+  "valence": 0.1,
+  "tempo": 112,
+  "type": "audio_features",
+  "id": "2oap3QptGISyIvwKpnJJId",
+  "uri": "spotify:track:2oap3QptGISyIvwKpnJJId",
+  "track_href": "https://api.spotify.com/v1/tracks/2oap3QptGISyIvwKpnJJId",
+  "analysis_url": "https://api.spotify.com/v1/audio-analysis/2oap3QptGISyIvwKpnJJId",
+  "duration_ms": 176774,
+  "time_signature": 4
+}
+
+
+const clientID = "6b07ed63b9284ebb97bad5d40f6a4c61";
+const clientSecret = "39a4fd794c48415daa2e8b77b6a501d3";
+
+// function App() {
+//   const [searchIng, setSearchInput] = useState("")
+
+//   useEffect(() => {
+
+//   }
+//   )
+// }
+
+// creating dummy listening event for when a user searches for a song
+let typedSong = ""
+const searchInput = document.querySelector('#search');
+
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === 'Enter') {
+    if (!e.currentTarget.value)
+      console.log('cleared');
+    else
+    typedSong = e.currentTargetValue
+    console.log()
+    radarChart.data.datasets[0].data = songData;
+    radarChart.update();
+    console.log(songData)
+  }
+});
+searchInput.addEventListener('input', (e) => {
+  if (!e.currentTarget.value)
+    console.log('cleared');
+});
+
+// adding dummy dropdown listener event
+const decadeInput = document.querySelector('#greet');
+
+decadeInput.addEventListener('change', (e) => {
+  console.log(decadeData);
+  radarChart.data.datasets[1].data = decadeData;
+  radarChart.update();
+
+});
+
+// creating element that selects radar chart
+var canvasElement = document.getElementById('radar-compare');
+
+// starting out by pre-determing the song features to be measured on the radar chart
+let songFeatures = [
+  'danceability',
+  'energy',
+  'loudness',
+  'speechiness',
+  'acousticness',
+  'liveness'
+]
+
+// creating dummy song data as i expect the output to be like 
+let songData = [];
 for (let k in songFeatures) {
-  console.log(songFeatures[k])
   for (let j in calledFeatures){
-    console.log(calledFeatures[j])
     if (j == songFeatures[k]) {
       songData.push(calledFeatures[j])
-    }
-  }
+    };
+  };
 };
-console.log(songData)
+
+//creating dummy decade data as i expect the output to be like 
+let decadeData = []
+for (let k in songFeatures) {
+  for (let v in decadeRawData){
+    if (v == songFeatures[k]) {
+      decadeData.push(decadeRawData[v])
+    };
+  };
+};
 
 
-let decadeData = songData
-
-// for (const value in calledFeatures) {
-//   {
-//   songData.push(value)
-//   }
-// };
-// console.log(songData)
+// dummy chart
 const data = {
   labels: songFeatures,
   datasets: [{
     label: 'songs',
-    data: songData,
+    data: [1,2,3,4,5,6],
     fill: true,
     backgroundColor: 'rgba(255, 99, 132, 0.2)',
     borderColor: 'rgb(255, 99, 132)',
@@ -129,7 +135,7 @@ const data = {
     pointHoverBorderColor: 'rgb(255, 99, 132)'
   }, {
     label: 'Decade Name',
-    data: decadeData,
+    data: [5,3,2,1,2,3],
     fill: true,
     backgroundColor: 'rgba(54, 162, 235, 0.2)',
     borderColor: 'rgb(54, 162, 235)',
@@ -139,7 +145,6 @@ const data = {
     pointHoverBorderColor: 'rgb(54, 162, 235)'
   }]
 };
-
 
 var config = {
   type: 'radar',
@@ -152,9 +157,7 @@ var config = {
     }
   },
 };
-
-
-var radarChart = new Chart(canvasElement, config)
+var radarChart = new Chart(canvasElement, config);
 
 
 
